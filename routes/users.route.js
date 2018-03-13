@@ -16,7 +16,7 @@ var updateMiddleware = function (request, response, next) {
 };
 
 var updateMiddleware2 = function (request, response, next) {
-  delete request.body.password;
+  delete request.body.contrasena;
   delete request.body.type;
   delete request.body.deleted;
   next();
@@ -37,7 +37,7 @@ router.get('/', function (request, response) {
   userModel.find({
     deleted: false
   }, {
-    password: 0,
+   //constrasena: 0,
     deleted: 0,
     __v: 0
   }, null, function (err, userList) {
@@ -57,9 +57,9 @@ router.get('/', function (request, response) {
 
 router.post('/', function (request, response) {
   var newUser = new userModel(request.body);
-  if (request.body.password) {
-    var hashedPassword = bcrypt.hashSync(request.body.password, secretkeys.salts);
-    newUser.password = hashedPassword;
+  if (request.body.contrasena) {
+    var hashedPassword = bcrypt.hashSync(request.body.contrasena, secretkeys.salts);
+    newUser.contrasena = hashedPassword;
   }
   newUser.save(function (err, userCreated) {
     if (err) {
@@ -142,57 +142,13 @@ router.delete('/:id', function (request, response) {
   });
 });
 
-router.get('/seed', function (request, response) {
-  var Client = require('node-rest-client').Client;
-
-  var client = new Client();
-
-  client.get("https://randomuser.me/api/?results=10&nat=us", function (data, response2) {
-    var array = [];
-    var hashedPassword = bcrypt.hashSync('1234567', secretkeys.salts);
-    array.push({
-      name: 'Angel',
-      lastname: 'Antezana',
-      username: 'anghel7',
-      email: 'anghel@gmail.com',
-      password: hashedPassword,
-      avatar: 'https://pbs.twimg.com/profile_images/743853773429276672/_cLiC9TB_400x400.jpg',
-      type: 'ADM'
-    });
-    data.results.forEach(element => {
-      array.push({
-        name: element.name.first,
-        lastname: element.name.last,
-        username: element.login.username,
-        email: element.email,
-        password: hashedPassword,
-        avatar: element.picture.large
-      });
-    });
-    userModel.remove({}, function (err) {
-
-      userModel.create(array, function (error, userlistcreated) {
-        if (error)
-          return response.status(500).send({
-            message: 'There was a problem to get the users.',
-            error: error
-          });
-        response.send({
-          data: userlistcreated
-        });
-      });
-
-    });
-  });
-});
-
 router.get('/:id', function (request, response) {
   userModel.findOne({
     _id: request.params.id,
     deleted: false
   }, {
     __v: 0,
-    password: 0,
+    contrasena: 0,
     deleted: 0
   }, null, function (err, userFound) {
     if (err)

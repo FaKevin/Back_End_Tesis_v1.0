@@ -22,7 +22,8 @@ router.post('/login', function (request, response) {
         message: 'Resource not found, invalid username',
         error: null
       });
-    var passworIsValid = bcrypt.compareSync(request.body.password, userFound.password);
+    var passworIsValid = bcrypt
+    .compareSync(request.body.contrasena, userFound.contrasena);
     if (!passworIsValid)
       return response.status(403).send({
         message: 'unauthorized access, invalid password',
@@ -32,7 +33,7 @@ router.post('/login', function (request, response) {
       userid: userFound._id,
       type: userFound.type
     }, secretkeys.token, {
-      expiresIn: 60 * 5
+      expiresIn: 60 * 10
     });
     return response.send({
       auth: true,

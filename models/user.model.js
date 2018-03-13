@@ -7,37 +7,51 @@ var validateemail = function (email) {
 };
 
 var userSchema = mongoose.Schema({
-  name: {
+  nombre: {
     type: String,
     required: true
   },
-  lastname: {
+  apellido: {
     type: String,
     required: true
   },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    minlength: 5,
-    maxlength: 50,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: [validateemail, 'Please enter a valid email']
-  },
-  password: {
+  username:{
     type: String,
     required: true
   },
-  avatar: {
+  contrasena: {
+    type: String,
+    required: true
+  },
+  foto: {
     type: String,
     default: 'http://fotouser.miarroba.st/68731257/300/mr-anonimo.jpg'
   },
-  type: {
+  departamento: {
+    type: String,
+    required: true
+  },
+  ciudad: {
+    type: String,
+    required: true
+  },
+  direccion: {
+    type: String,
+    required: true
+  },
+  marca: {
+    type: String,
+    required: true
+  },
+  ano: {
+    type: String,
+    required: true
+  },
+  modelo: {
+    type: String,
+    required: true
+  },
+  tipo: {
     type: String,
     enum: ['USER', 'ADM'],
     default: 'USER'
@@ -49,19 +63,22 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.methods.speak = function () {
-  console.log('Hi my name is : ' + this.name + '. How are you?');
+  console.log('Hi my name is : ' + this.nombre + this.apellido);
 };
 
 userSchema.methods.getDtoUser = function () {
   var userDTO = {
     _id: this._id,
-    name: this.name,
-    lastname: this.lastname,
-    username: this.username,
-    email: this.email,
-    avatar: this.avatar,
+    nombre: this.nombre,
+    apellido: this.apellido,
+    username : this.username,
+    departamento: this.departamento,
+    ciudad: this.ciudad,
+    direccion: this.direccion,
+    marca: this.marca,
+    ano: this.ano,
+    modelo: this.modelo,
     type: this.type
-    
   };
   return userDTO;
 };

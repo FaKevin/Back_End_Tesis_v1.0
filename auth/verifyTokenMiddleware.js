@@ -16,7 +16,7 @@ var verifyToken = function (request, response, next) {
         return response.status(500).send({
           auth: false,
           token: null,
-          message: 'failed to authenticate, expired token, invalid token'
+          message: 'token expirado'
         });
       request.params.userid = tokenDecoded.userid;
       request.params.type = tokenDecoded.type;
