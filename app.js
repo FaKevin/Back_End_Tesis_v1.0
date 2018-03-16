@@ -13,7 +13,8 @@ var app = express();
 app.use(function (request, response, next) {
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETED');
-  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content_type, Content-Type, Accept, auth-access-token, tittle-ticket, username-ticket');
+  response.header('Access-Control-Allow-Headers', 
+  'Origin, X-Requested-With, Content_type, Content-Type, Accept, auth-access-token, date-ticket,datema-ticket,dateme-ticket, username-ticket');
   next();
 });
 

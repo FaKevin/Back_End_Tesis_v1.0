@@ -2,15 +2,17 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
   username: {
-    type: mongoose.Schema.Types.String,
+    type: String,
     ref: 'User',
     required: true
   },
-  title: {
+  date: {
+    type: Date,
+    required: true
+  },
+  num: {
     type: String,
-    required: true,
-    unique: true
-    //trim: true
+    required: true
   },
   schedule: [],
   deleted: {

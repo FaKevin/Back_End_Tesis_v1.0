@@ -37,7 +37,8 @@ router.get('/', function (request, response) {
   userModel.find({
     deleted: false
   }, {
-   //constrasena: 0,
+    _id:0,
+   password: 0,
     deleted: 0,
     __v: 0
   }, null, function (err, userList) {

@@ -3,13 +3,36 @@ var router = express.Router();
 var ticketModel = require('../models/ticket.model');
 var userModel = require('../models/user.model');
 
-var selectUserPopulated = {
-  path: 'username',
-  select: '-_id -username -photo -type -deleted -password -__v'
-};
+router.get('/', function (request, response) {
+  console.log(prueba);
+  ticketModel.find({
+    deleted: false,
+    username: request.headers['username-ticket'],
+    date: { $gte:request.headers['datema-ticket'], $lte: request.headers['dateme-ticket']}
+  }, {
+    _id:0,
+    deleted: 0,
+    __v: 0
+  }, null, function (err, ticketList) {
+    if (err) {
+      return response.status(500).send({
+        message: 'Thera was a problem retrieving the ticket list',
+        error: err
+      });
+    } else {
+      response.send({
+        message: 'The ticketList has been retrieved',
+        data: ticketList
+      });
+    }
+  });
+});
+
+
 
 router.post('/', function (request, response) {
   var newTicket = new ticketModel(request.body);
+  var prueba = "prueba variables globales";
   newTicket.save(function (err, ticketCreated) {
     if (err) {
       return response.status(500)
@@ -25,10 +48,11 @@ router.post('/', function (request, response) {
     }
   });
 });
+
 router.put('/', function (request, response) {
     ticketModel.findOne({
     username: request.headers['username-ticket'],
-    title: request.headers['title-ticket']
+    date: request.headers['date-ticket']
   }, function (err, ticketFound) {
     if (err)
       return response.status(500).send({
@@ -37,7 +61,7 @@ router.put('/', function (request, response) {
       });
     if (!ticketFound)
       return response.status(404).send({
-        message: 'There was a problem to find the ticket, invalid username or tittle',
+        message: 'There was a problem to find the ticket, invalid username or date',
         error: ''
       });
     ticketFound.schedule = ticketFound.schedule.concat(request.body);
