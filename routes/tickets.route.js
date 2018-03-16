@@ -5,10 +5,26 @@ var userModel = require('../models/user.model');
 
 var selectUserPopulated = {
   path: 'username',
-  select: '-_id -username -avatar -type -deleted -password -__v'
+  select: '-_id -username -photo -type -deleted -password -__v'
 };
 
-
+router.post('/', function (request, response) {
+  var newTicket = new ticketModel(request.body);
+  newTicket.save(function (err, ticketCreated) {
+    if (err) {
+      return response.status(500)
+        .send({
+          message: 'There was a problem registering the ticket',
+          error: err
+        });
+    } else {
+      response.send({
+        message: 'A new ticket has been created',
+        data: ticketCreated
+      });
+    }
+  });
+});
 router.put('/', function (request, response) {
     ticketModel.findOne({
     username: request.headers['username-ticket'],
@@ -26,7 +42,7 @@ router.put('/', function (request, response) {
       });
     ticketFound.schedule = ticketFound.schedule.concat(request.body);
     var newTicket = new ticketModel(ticketFound); 
-    newTicket.save(function (error, userUpdate){
+    newTicket.save(function (error, ticketUpdate){
       if(error)
           return response.status(500).send({
           message:'There was a problem to update the ticket, error server',
@@ -34,7 +50,7 @@ router.put('/', function (request, response) {
           });
       response.send({
           message: 'The ticket has been updated',
-          data: userUpdate
+          data: ticketUpdate
       });
   }); 
   });
