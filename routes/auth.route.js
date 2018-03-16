@@ -23,7 +23,7 @@ router.post('/login', function (request, response) {
         error: null
       });
     var passworIsValid = bcrypt
-    .compareSync(request.body.contrasena, userFound.contrasena);
+    .compareSync(request.body.password, userFound.password);
     if (!passworIsValid)
       return response.status(403).send({
         message: 'unauthorized access, invalid password',

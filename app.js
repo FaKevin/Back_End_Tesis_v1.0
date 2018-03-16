@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 /*Routes declaration*/
 /*test*/
 var usersRoute = require('./routes/users.route');
-var articleRoutes = require('./routes/articles.route');
+var ticketRoutes = require('./routes/tickets.route');
 var authRoute = require('./routes/auth.route');
 
 var app = express();
@@ -13,7 +13,7 @@ var app = express();
 app.use(function (request, response, next) {
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETED');
-  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content_type, Content-Type, Accept, auth-access-token');
+  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content_type, Content-Type, Accept, auth-access-token, tittle-ticket, username-ticket');
   next();
 });
 
@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 /*Add routes to app*/
 app.use('/users', usersRoute);
 app.use('/auth', authRoute);
-app.use('/articles', articleRoutes);
+app.use('/tickets', ticketRoutes);
 
 app.listen(3000, function () {
   console.log('corriendo en el puerto 3000');

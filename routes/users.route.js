@@ -16,7 +16,7 @@ var updateMiddleware = function (request, response, next) {
 };
 
 var updateMiddleware2 = function (request, response, next) {
-  delete request.body.contrasena;
+  delete request.body.password;
   delete request.body.type;
   delete request.body.deleted;
   next();
@@ -57,9 +57,9 @@ router.get('/', function (request, response) {
 
 router.post('/', function (request, response) {
   var newUser = new userModel(request.body);
-  if (request.body.contrasena) {
-    var hashedPassword = bcrypt.hashSync(request.body.contrasena, secretkeys.salts);
-    newUser.contrasena = hashedPassword;
+  if (request.body.password) {
+    var hashedPassword = bcrypt.hashSync(request.body.password, secretkeys.salts);
+    newUser.password = hashedPassword;
   }
   newUser.save(function (err, userCreated) {
     if (err) {
@@ -148,7 +148,7 @@ router.get('/:id', function (request, response) {
     deleted: false
   }, {
     __v: 0,
-    contrasena: 0,
+    password: 0,
     deleted: 0
   }, null, function (err, userFound) {
     if (err)

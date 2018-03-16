@@ -7,51 +7,54 @@ var validateemail = function (email) {
 };
 
 var userSchema = mongoose.Schema({
-  nombre: {
+  name: {
     type: String,
     required: true
   },
-  apellido: {
+  lastname: {
     type: String,
     required: true
   },
   username:{
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    trim: true
   },
-  contrasena: {
+  password: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
-  foto: {
+  photo: {
     type: String,
     default: 'http://fotouser.miarroba.st/68731257/300/mr-anonimo.jpg'
   },
-  departamento: {
+  state: {
     type: String,
     required: true
   },
-  ciudad: {
+  city: {
     type: String,
     required: true
   },
-  direccion: {
+  address: {
     type: String,
     required: true
   },
-  marca: {
+  brand: {
     type: String,
     required: true
   },
-  ano: {
+  year: {
     type: String,
     required: true
   },
-  modelo: {
+  model: {
     type: String,
     required: true
   },
-  tipo: {
+  type: {
     type: String,
     enum: ['USER', 'ADM'],
     default: 'USER'
@@ -69,15 +72,15 @@ userSchema.methods.speak = function () {
 userSchema.methods.getDtoUser = function () {
   var userDTO = {
     _id: this._id,
-    nombre: this.nombre,
-    apellido: this.apellido,
-    username : this.username,
-    departamento: this.departamento,
-    ciudad: this.ciudad,
-    direccion: this.direccion,
-    marca: this.marca,
-    ano: this.ano,
-    modelo: this.modelo,
+    name: this.name,
+    lastname: this.lastname,
+    username: this.username,
+    state: this.state,
+    city: this.city,
+    address: this.address,
+    brand: this.brand,
+    year: this.year,
+    model: this.model,
     type: this.type
   };
   return userDTO;
