@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 /*test*/
 var usersRoute = require('./routes/users.route');
 var ticketRoutes = require('./routes/tickets.route');
+var gpsRoutes = require('./routes/gps.route');
 var authRoute = require('./routes/auth.route');
 
 var app = express();
@@ -14,7 +15,7 @@ app.use(function (request, response, next) {
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETED');
   response.header('Access-Control-Allow-Headers', 
-  'Origin, X-Requested-With, Content_type, Content-Type, Accept, auth-access-token, date-ticket,datema-ticket,dateme-ticket, username-ticket');
+  'Origin, X-Requested-With, Content_type, Content-Type, Accept, auth-access-token, date,datema,dateme, username');
   next();
 });
 
@@ -38,6 +39,7 @@ app.use(bodyParser.json());
 app.use('/users', usersRoute);
 app.use('/auth', authRoute);
 app.use('/tickets', ticketRoutes);
+app.use('/gps', gpsRoutes);
 
 app.listen(3000, function () {
   console.log('corriendo en el puerto 3000');

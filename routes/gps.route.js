@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var ticketModel = require('../models/ticket.model');
+var gpsModel = require('../models/gps.model');
 var userModel = require('../models/user.model');
 
 router.get('/', function (request, response) {
-  ticketModel.find({
+  gpsModel.find({
     deleted: false,
     username: request.headers['username'],
     date: { $gte:request.headers['dateme'], $lte: request.headers['datema']}
@@ -12,66 +12,67 @@ router.get('/', function (request, response) {
     _id:0,
     deleted: 0,
     __v: 0
-  }, null, function (err, ticketList) {
+  }, null, function (err, gpsList) {
     if (err) {
       return response.status(500).send({
-        message: 'Thera was a problem retrieving the ticket list',
+        message: 'Thera was a problem retrieving the gps list',
         error: err
       });
     } else {
       response.send({
-        message: 'The ticketList has been retrieved',
-        data: ticketList
+        message: 'The gpsList has been retrieved',
+        data: gpsList
       });
     }
   });
 });
 
 
+
 router.post('/', function (request, response) {
-  var newTicket = new ticketModel(request.body);
-  newTicket.save(function (err, ticketCreated) {
+  var newGps = new gpsModel(request.body);
+  newGps.save(function (err, gpsCreated) {
     if (err) {
       return response.status(500)
         .send({
-          message: 'There was a problem registering the ticket',
+          message: 'There was a problem registering the gps',
           error: err
         });
     } else {
       response.send({
-        message: 'A new ticket has been created',
-        data: ticketCreated
+        message: 'A new gps has been created',
+        data: gpsCreated
       });
     }
   });
 });
 
 router.put('/', function (request, response) {
-    ticketModel.findOne({
+    gpsModel.findOne({
     username: request.headers['username'],
     date: request.headers['date']
-  }, function (err, ticketFound) {
+  }, function (err, gpsFound) {
     if (err)
       return response.status(500).send({
-        message: 'There was a problem to find the ticket, error server',
+        message: 'There was a problem to find the gps, error server',
         error: err
       });
-    if (!ticketFound)
+    if (!gpsFound)
       return response.status(404).send({
-        message: 'There was a problem to find the ticket, invalid username or date',
+        message: 'There was a problem to find the gps, invalid username or date',
         error: ''
       });
-    ticketFound.schedule = ticketFound.schedule.concat(request.body);
-    var newTicket = new ticketModel(ticketFound); 
-    newTicket.save(function (error, ticketUpdate){
+    gpsFound.schedule = gpsFound.schedule.concat(request.body);
+    var newGps = new gpsModel(gpsFound); 
+    newTicket.save(function (error, gpsUpdate){
       if(error)
           return response.status(500).send({
-          message:'There was a problem to update the ticket, error server',
+          message:'There was a problem to update the gps, error server',
           error: error
           });
       response.send({
-          message: 'The ticket has been updated',
-          data: ticketUpdate
+          message: 'The gps has been updated',
+          data: gpsUpdate
       });
   }); 
   });
