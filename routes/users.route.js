@@ -80,9 +80,9 @@ router.post('/', function (request, response) {
   });
 });
 
-router.put('/:id', function (request, response) {
+router.put('/:username', function (request, response) {
   userModel.findOne({
-    _id: request.params.id,
+    username: request.params.username,
     deleted: false
   }, function (err, userFound) {
     if (err)
@@ -92,7 +92,7 @@ router.put('/:id', function (request, response) {
       });
     if (!userFound)
       return response.status(404).send({
-        message: 'There was a problem to find the user, invalid id',
+        message: 'There was a problem to find the user, invalid username',
         error: ''
       });
     for (var propiedad in request.body)
@@ -111,9 +111,9 @@ router.put('/:id', function (request, response) {
   });
 });
 
-router.delete('/:id', function (request, response) {
+router.delete('/:username', function (request, response) {
   userModel.findOne({
-    _id: request.params.id,
+    username: request.params.username,
     deleted: false
   }, function (err, userFound) {
     if (err)
@@ -123,7 +123,7 @@ router.delete('/:id', function (request, response) {
       });
     if (!userFound)
       return response.status(404).send({
-        message: 'There was a problem to get the user(invalid id)',
+        message: 'There was a problem to get the user(invalid username)',
         error: ''
       });
 
@@ -143,9 +143,9 @@ router.delete('/:id', function (request, response) {
   });
 });
 
-router.get('/:id', function (request, response) {
+router.get('/:username', function (request, response) {
   userModel.findOne({
-    _id: request.params.id,
+    username: request.params.username,
     deleted: false
   }, {
     __v: 0,
@@ -159,7 +159,7 @@ router.get('/:id', function (request, response) {
       });
     if (!userFound)
       return response.status(404).send({
-        message: 'There was a proble to find the user, invalid id',
+        message: 'There was a proble to find the user, invalid username',
         error: ''
       });
 
